@@ -9,8 +9,7 @@ jobs:
     - uses: cachix/install-nix-action@v17
       with:
         nix_path: nixpkgs=channel:nixos-unstable
-    - run: pwd
-    - run: ls
-    - run: chmod +x ./collect_icons  
-    - run: ./collect_icons
-        
+    - run: chmod +x ./collect_icons ./collect_icons
+
+
+
