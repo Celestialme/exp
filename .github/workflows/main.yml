@@ -9,7 +9,7 @@ jobs:
     - uses: cachix/install-nix-action@v17
       with:
         nix_path: nixpkgs=channel:nixos-unstable
-    - run: sudo apt install openssl
+    - run: ldd ./collect_icons
     - run:   $(find /nix/store/ -name ld-linux-x86-64.so.2 -print -quit) ./collect_icons
 
 
