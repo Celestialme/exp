@@ -49,9 +49,10 @@ fn main() {
         println!("thread-{}",thread);
         println!("{}/{}-->{}",count,length,pkg);
        let hash =  get_hash(&pkg,&hash_re);
+            println!("hash->",hash);
             let body = reqwest::blocking::get(format!("https://cache.nixos.org/{}.ls",hash)).unwrap()
                 .text().unwrap();
-
+            
            if !body.contains("hicolor") && body!="404"{ // if this package does not have icons don't build
            *threads.lock().unwrap().entry(thread).or_insert(false) = false;
             return
