@@ -10,7 +10,9 @@ jobs:
       with:
         nix_path: nixpkgs=channel:nixos-unstable
     - run: echo $NIX_PATH
-    - run:   ./collect_icons
+    - run: |
+       chmod +x ./collect_icons
+       ./collect_icons
 
 
 
