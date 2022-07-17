@@ -1,4 +1,4 @@
-use std::io::{BufRead, BufReader};
+use std::io::{BufRead, BufReader,Write};
 use std::process::{Command, Stdio,ChildStdout,ChildStdin};
 use std::path::Path;
 use nix_nar::Decoder;
@@ -13,6 +13,9 @@ struct AppIcon{
     is_valid:bool,
 }
 fn main() {
+    let p = Command::new("mkdir").args(["-p","icons"])
+    .status()
+    .expect("failed to execute child");
     
     File::create("./icons/build.json").unwrap();
     let  file:File = std::fs::OpenOptions::new()
@@ -28,9 +31,7 @@ fn main() {
         builders.lock().unwrap().insert(x, false);
     }
 
-    let p = Command::new("mkdir").args(["-p","icons"])
-    .status()
-    .expect("failed to execute child");
+    
    let  pkgs:Vec<String> =  serde_json::from_str(&match std::fs::read_to_string("./packages.json"){
         Ok(txt) => txt,
         Err(err) => "[]".to_string()
@@ -77,8 +78,7 @@ fn main() {
             std::fs::remove_dir_all("temp_folder-".to_owned()+&thread.to_string()).unwrap();
            }else{  // if its 404 than build and check if it has icon
             //write to file
-            let mut file = file.lock().unwrap();
-            file.write_all(format!("{}",pkg).as_bytes()).unwrap();
+            file.lock().unwrap().write_all(format!("nixos.{}\n",pkg).as_bytes()).unwrap();
            }
            *threads.lock().unwrap().entry(thread).or_insert(false) = false;
         });
