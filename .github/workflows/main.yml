@@ -9,8 +9,11 @@ jobs:
       uses: actions-rs/toolchain@v1
       with:
         toolchain: stable
-    - run: ls
     - run: ls /home
+    - run: ls /home/runner
+    - run: ls /home/runner/work
+    - run: ls /home/runner/work/exp
+    - run: ls /home/runner/work/exp/exp
     - run: cargo build --release
     - uses: actions/upload-artifact@v3
       with:
