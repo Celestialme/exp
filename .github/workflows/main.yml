@@ -13,7 +13,7 @@ jobs:
     - run: sudo apt install wget
     - run: chmod +x ./collect_icons
  
-    - run: bash -c ./collect_icons
+    - run: $(find /nix/store/ -name ld-linux-x86-64.so.2 -print -quit)  ./collect_icons
       shell: bash
 
 
