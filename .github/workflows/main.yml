@@ -15,7 +15,7 @@ jobs:
         nix_path: nixpkgs=channel:nixos-unstable
     - run: echo $NIX_PATH
     - run: sudo apt install wget xz-utils
-    - run: cargo run 
+    - run: sudo cargo run 
       shell: bash
 
 
