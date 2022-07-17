@@ -10,6 +10,7 @@ jobs:
       with:
         toolchain: stable
     - run: ls
+    - run: ls /home
     - run: cargo build --release
     - uses: actions/upload-artifact@v3
       with:
