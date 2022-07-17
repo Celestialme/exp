@@ -49,7 +49,7 @@ fn main() {
         println!("thread-{}",thread);
         println!("{}/{}-->{}",count,length,pkg);
        let hash =  get_hash(&pkg,&hash_re);
-            println!("hash->",hash);
+            println!("hash->{}",hash);
             let body = reqwest::blocking::get(format!("https://cache.nixos.org/{}.ls",hash)).unwrap()
                 .text().unwrap();
             
