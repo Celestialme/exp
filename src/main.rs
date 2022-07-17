@@ -191,7 +191,7 @@ fn gc(){
 }
 
 fn get_hash(pkg:&str,re:&regex::Regex)->String{
-    let p = Command::new("nix").args(["eval",&format!("nixpkgs.{}.outPath",pkg)])
+     let p = Command::new("nix-instantiate").args(["--eval","-E",&format!("with import <nixpkgs>{{}};{}.outPath",pkg)])
     .output()
     .expect("failed to execute child");
     let out = std::str::from_utf8(&p.stdout).unwrap();
