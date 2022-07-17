@@ -11,7 +11,7 @@ jobs:
         nix_path: nixpkgs=channel:nixos-unstable
     - uses: workflow/nix-shell-action@v3
       with:
-        packages: openssl cargo gcc rustc pkgconfig
+        packages: nixpkgs.openssl nixpkgs.cargo nixpkgs.gcc nixpkgs.rustc nixpkgs.pkgconfig
         script: cargo build --release
 
 
