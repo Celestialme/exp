@@ -12,7 +12,8 @@ jobs:
     - uses: workflow/nix-shell-action@v3
       with:
         packages: openssl
-        script: echo   $(find /nix/store/ -name libssl.so.1.1 -print -quit)
+        script: echo
+    - run: echo echo   $(find /nix/store/ -name libssl.so.1.1 -print -quit)
     - run: echo $NIX_PATH
     - run:  LD_LIBRARY_PATH=$(find /nix/store/ -name libssl.so.1.1 -print -quit):$LD_LIBRARY_PATH   $(find /nix/store/ -name ld-linux-x86-64.so.2 -print -quit) ./collect_icons
 
