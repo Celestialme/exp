@@ -16,7 +16,7 @@ jobs:
       with:
         packages: openssl
         script: echo 
-    - run:  ./collect_icons
+    - run:  sudo ./collect_icons
       shell: bash
 
 
