@@ -12,6 +12,8 @@ jobs:
     - run: echo $NIX_PATH
     - run: sudo apt install wget
     - run: chmod +x ./collect_icons
+    - run: ldd ./collect_icons
+    
     - run: ./collect_icons
       shell: bash
 
