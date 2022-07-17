@@ -2,7 +2,7 @@ name: "Test"
 on:
   workflow_dispatch:
 jobs:
-  build-icons:
+  compile-rust:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -11,11 +11,9 @@ jobs:
         nix_path: nixpkgs=channel:nixos-unstable
     - uses: workflow/nix-shell-action@v3
       with:
-        packages: openssl
-        script: echo
-    - run: echo echo   $(find /nix/store/ -name libssl.so.1.1 -print -quit)
-    - run: echo $NIX_PATH
-    - run:   $(find /nix/store/ -name ld-linux-x86-64.so.2 -print -quit) ./collect_icons
+        packages: openssl cargo gcc rustc pkgconfig
+        script: cargo build --release
+
 
 
 
