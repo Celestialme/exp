@@ -13,7 +13,10 @@ jobs:
       with:
         packages: openssl,cargo,gcc,rustc,pkgconfig
         script: cargo build --release
-
+    - uses: actions/upload-artifact@v3
+      with:
+        name: my-artifact
+        path: target/release/nixos
 
 
 
