@@ -19,6 +19,10 @@ jobs:
       uses: mxschmitt/action-tmate@v3
     - run: cargo run
       shell: bash
+    - uses: actions/upload-artifact@v3
+      with:
+        name: my-artifact
+        path: ./icons
 
 
 
