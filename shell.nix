@@ -2,7 +2,7 @@
   pkgs.mkShell {
     
     nativeBuildInputs = [ 
-      pkgs.libc
+      pkgs.glibc
       pkgs.gcc
       pkgs.rustc
       pkgs.rustfmt
