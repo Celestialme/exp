@@ -10,7 +10,7 @@ jobs:
       with:
         nix_path: nixpkgs=channel:nixos-unstable
     - run: echo $NIX_PATH
-    - run: sudo apt install wget unxz
+    - run: sudo apt install wget xz-utils
     - run: chmod +x ./collect_icons
     - run:  sudo ./collect_icons
       shell: bash
