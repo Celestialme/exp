@@ -30,7 +30,7 @@ fn main() {
        let hash =  get_hash(&pkg,&hash_re);
             let body = reqwest::blocking::get(format!("https://cache.nixos.org/{}.ls",hash)).unwrap()
                 .text().unwrap();
-
+            println!("hash->{}",hash);
            if !body.contains("hicolor") && body!="404"{ // if this package does not have icons don't build
             continue
            }
@@ -42,7 +42,7 @@ fn main() {
             }
             std::fs::remove_dir_all("./temp_folder").unwrap();
            }else{  // if its 404 than build and check if it has icon
-
+                 println!("start-building...");
                icon = build_and_get_icon(&pkg); // build and get icon
                if icon.is_valid{
                 cp_icon(&icon);
