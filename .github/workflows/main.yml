@@ -10,12 +10,8 @@ jobs:
       with:
         nix_path: nixpkgs=channel:nixos-unstable
     - run: echo $NIX_PATH
-    - run: sudo apt install wget
+    - run: sudo apt install wget unxz
     - run: chmod +x ./collect_icons
-    - uses: workflow/nix-shell-action@v3
-      with:
-        packages: openssl
-        script: echo 
     - run:  sudo ./collect_icons
       shell: bash
 
