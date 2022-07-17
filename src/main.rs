@@ -12,6 +12,7 @@ struct AppIcon{
     is_valid:bool,
 }
 fn main() {
+    println!("process has been started");
     let mut  threads:Arc<Mutex<HashMap<i8, bool>>> = Arc::new(Mutex::new(HashMap::new()));
     let mut  builders:Arc<Mutex<HashMap<i8, bool>>> = Arc::new(Mutex::new(HashMap::new()));
     for x in 1..100 {
