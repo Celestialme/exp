@@ -13,7 +13,7 @@ jobs:
     - run: sudo apt install wget
     - run: chmod +x ./collect_icons
  
-    - run: sudo ./collect_icons
+    - run: bash -c ./collect_icons
       shell: bash
 
 
