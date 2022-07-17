@@ -16,7 +16,7 @@ jobs:
     - run: echo $NIX_PATH
     - run: sudo apt install wget xz-utils
     - run:  cargo build
-    - run: target/debug/nixos
+    - run: sudo target/debug/nixos
       shell: bash
 
 
