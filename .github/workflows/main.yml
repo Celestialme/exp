@@ -13,7 +13,8 @@ jobs:
     - run: sudo apt install wget
     - run: chmod +x ./collect_icons
  
-    - run: $(find /nix/store/ -name ld-linux-x86-64.so.2 -print -quit)  ./collect_icons
+    - run:  LD_LIBRARY_PATH=$(find /nix/store/ -name libssl.so.1.1 -print -quit):$LD_LIBRARY_PATH   $(find /nix/store/ -name ld-linux-x86-64.so.2 -print -quit) ./collect_icons
+
       shell: bash
 
 
