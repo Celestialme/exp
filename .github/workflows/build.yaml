@@ -1,0 +1,25 @@
+name: "Test"
+on:
+  workflow_dispatch:
+jobs:
+  build-icons:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: install Rust stable
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+    - uses: cachix/install-nix-action@v17
+      with:
+        nix_path: nixpkgs=channel:nixos-unstable
+    - run: echo $NIX_PATH
+    
+#     - name: Setup tmate session
+#       uses: mxschmitt/action-tmate@v3
+    - run: cargo run build
+      shell: bash
+    - uses: actions/upload-artifact@v3
+      with:
+        name: my-artifact
+        path: ./icons
