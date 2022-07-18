@@ -17,7 +17,7 @@ jobs:
     
 #     - name: Setup tmate session
 #       uses: mxschmitt/action-tmate@v3
-    - run: cargo run build
+    - run: cargo run --bin build_packages
       shell: bash
     - uses: actions/upload-artifact@v3
       with:
