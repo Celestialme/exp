@@ -31,8 +31,8 @@ fn main() {
                icon = build_and_get_icon(&pkg); // build and get icon
                if icon.is_valid{
                 cp_icon(&icon);
-                gc();
                }
+            gc();
            }
    
        
@@ -75,8 +75,8 @@ fn gc(){
     let p = Command::new("nix-collect-garbage")
     .output()
     .expect("failed to execute child");
-    let out = std::str::from_utf8(&p.stdout).unwrap();
-    println!("{}",out);
+    let _out = std::str::from_utf8(&p.stdout).unwrap();
+    println!("collecting garbage...");
 }
 
 
