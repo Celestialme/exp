@@ -241,6 +241,19 @@ fn get_icon(path:&str,pkg:&str)->AppIcon{
         return  AppIcon{icon_name:png.to_string(),pkg_name:pkg.to_string(),extension:"png".to_string(),is_valid:true};
        
     };
+    
+  
+    let p = Command::new("find").args([&format!("{}{}",path,size),"-name","*.gif","-print","-quit"])
+    .output()
+    .expect("failed to execute child"); // check if svg exists
+    let gif =  std::str::from_utf8(&p.stdout).unwrap();
+    println!("{}",gif);
+    if !gif.is_empty(){
+        return  AppIcon{icon_name:gif.to_string(),pkg_name:pkg.to_string(),extension:"gif".to_string(),is_valid:true};
+       
+    };
+    
+    
     return AppIcon{icon_name:"".to_string(),pkg_name:"".to_string(),extension:"".to_string(),is_valid:false}
 }
 
