@@ -26,7 +26,7 @@ fn main() {
     let mut  file:Arc<Mutex<File>> = Arc::new(Mutex::new(file));
     let mut  threads:Arc<Mutex<HashMap<i8, bool>>> = Arc::new(Mutex::new(HashMap::new()));
     let mut  builders:Arc<Mutex<HashMap<i8, bool>>> = Arc::new(Mutex::new(HashMap::new()));
-    for x in 1..100 {
+    for x in 1..20 {
         threads.lock().unwrap().insert(x, false);
         builders.lock().unwrap().insert(x, false);
     }
