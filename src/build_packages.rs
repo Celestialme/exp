@@ -32,13 +32,15 @@ fn main() {
                if icon.is_valid{
                 cp_icon(&icon);
                }
-        let pkg_out = Path::new("./pkg_out");
+      let pkg_out = Path::new("./pkg_out");
           if pkg_out.exists(){
-              pkg_out.is_dir(){
+            if pkg_out.is_dir(){
             std::fs::remove_dir_all("pkg_out".to_owned()).unwrap();
-              }else{
-                  std::fs::remove_file("pkg_out".to_owned()).unwrap();
-              }
+            } else{
+              std::fs::remove_file("pkg_out".to_owned()).unwrap();
+            }
+          
+          
           };
    
             gc();
