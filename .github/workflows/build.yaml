@@ -19,7 +19,7 @@ jobs:
 #       uses: mxschmitt/action-tmate@v3
     - run: NIXPKGS_ALLOW_UNFREE=1 cargo run --bin build_packages
       shell: bash
-    - name: Archive Test Results
+    - name: Archive Test Results 
       if: always()
     - uses: actions/upload-artifact@v3
       with:
