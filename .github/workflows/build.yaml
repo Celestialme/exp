@@ -21,7 +21,7 @@ jobs:
       shell: bash
     - name: Archive Test Results 
       if: always()
-    - uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v3
       with:
         name: my-artifact
         path: ./icons
