@@ -1,7 +1,6 @@
 use std::io::{BufRead, BufReader};
 use std::process::{Command, Stdio,ChildStdout,ChildStdin};
 use std::path::Path;
-use nix_nar::Decoder;
 #[derive(Debug)]
 struct AppIcon{
     icon_name:String,
@@ -29,9 +28,14 @@ fn main() {
         println!("{}/{}-->{}",count,length,pkg);
 
                icon = build_and_get_icon(&pkg); // build and get icon
+                println!("{:?}",icon);
                if icon.is_valid{
                 cp_icon(&icon);
                }
+          if Path::new("./deb_out").exists(){
+            std::fs::remove_dir_all("deb_out".to_owned()).unwrap();
+          };
+   
             gc();
            }
    
@@ -58,13 +62,26 @@ fn cp_icon(icon:&AppIcon){
 
 
 fn build_and_get_icon(pkg:&str)->AppIcon{
-       
+      
 
-let p = Command::new("nix-build").args(["<nixpkgs>","-A",pkg,"--no-out-link"])
+let p = Command::new("nix-build").args(["<nixpkgs>","-A",&format!("{}.src",pkg),"--no-out-link"])
 .output()
 .expect("failed to execute child");
-let  path = std::str::from_utf8(&p.stdout).unwrap();
-get_icon(path,pkg)
+
+let  path = std::str::from_utf8(&p.stdout).unwrap().trim();
+    
+let path_struct = Path::new(&path);
+if path_struct.is_dir(){
+   return get_icon(path,pkg);
+}else if path.ends_with(".deb"){
+  println!("-->>{}",path);
+ let _p = Command::new("dpkg").args(["-x",path,"deb_out"])
+    .output()
+    .expect("failed to execute child");
+    return get_icon("./deb_out",pkg);
+};
+    AppIcon{icon_name:"".to_string(),pkg_name:"".to_string(),extension:"".to_string(),is_valid:false}
+
 }
 
 
@@ -80,12 +97,10 @@ fn gc(){
 }
 
 
-fn get_icon(path:&str,pkg:&str)->AppIcon{
-    let path = format!("{}/share/icons/hicolor/",path.trim()); //hicolor path
+fn get_icon(dir_path:&str,pkg:&str)->AppIcon{
+    let path = format!("{}/share/icons/hicolor/",dir_path.trim()); //hicolor path
     let path_struct = Path::new(&path);
-    if !path_struct.exists(){
-        return AppIcon{icon_name:"".to_string(),pkg_name:"".to_string(),extension:"".to_string(),is_valid:false}
-    }
+    if path_struct.exists(){
     let p = Command::new("find").args([&path,"-name","*.svg","-print","-quit"])
     .output()
     .expect("failed to execute child"); // check if svg exists
@@ -111,6 +126,54 @@ fn get_icon(path:&str,pkg:&str)->AppIcon{
         return  AppIcon{icon_name:png.to_string(),pkg_name:pkg.to_string(),extension:"png".to_string(),is_valid:true};
        
     };
+
+
+    let p = Command::new("find").args([&format!("{}{}",path,size),"-name","*.gif","-print","-quit"])
+    .output()
+    .expect("failed to execute child"); // check if svg exists
+    let gif =  std::str::from_utf8(&p.stdout).unwrap();
+    println!("{}",gif);
+    if !gif.is_empty(){
+        return  AppIcon{icon_name:gif.to_string(),pkg_name:pkg.to_string(),extension:"gif".to_string(),is_valid:true};
+       
+    };
+
+    
+    };
+    let p = Command::new("find").args([dir_path,"-name","*.png","-or","-name","*.gif","-or","-name","*.svg"])
+    .output()
+    .expect("failed to execute child"); // check if svg exists
+  let re_size =  regex::Regex::new(r"(\d+)").unwrap();
+    let mut  icons:Vec<String> =  std::str::from_utf8(&p.stdout).unwrap().split("\n").filter(|x|!x.is_empty()).map(|x| x.to_string()).collect();
+    icons.sort_by(|a,b|{
+      let by_name = b.contains(&pkg).cmp(&a.contains(&pkg));
+      let by_logo = b.contains("logo").cmp(&a.contains("logo"));
+      let a_size =  match re_size.captures(&a) {
+        Some(x) =>x[1].parse().unwrap(),
+        None =>0
+       };
+      let b_size =  match re_size.captures(&b) {
+        Some(x) =>x[1].parse().unwrap(),
+        None =>0
+       };
+      let by_size = b_size.cmp(&a_size);
+      if by_name != std::cmp::Ordering::Equal{
+        return by_name;
+      }else if by_logo != std::cmp::Ordering::Equal{
+        return by_logo;
+      }else if by_size != std::cmp::Ordering::Equal{
+        return by_size
+      }
+      std::cmp::Ordering::Equal
+    });
+   
+    if !icons.is_empty(){
+      
+       return  AppIcon{icon_name:icons[0].to_string(),pkg_name:pkg.to_string(),extension:icons[0][icons[0].len()- 3..].to_string(),is_valid:true};
+    };
+
+
+
     return AppIcon{icon_name:"".to_string(),pkg_name:"".to_string(),extension:"".to_string(),is_valid:false}
 }
 
