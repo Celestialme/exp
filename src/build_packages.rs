@@ -32,8 +32,8 @@ fn main() {
                if icon.is_valid{
                 cp_icon(&icon);
                }
-          if Path::new("./deb_out").exists(){
-            std::fs::remove_dir_all("deb_out".to_owned()).unwrap();
+          if Path::new("./pkg_out").exists(){
+            std::fs::remove_dir_all("pkg_out".to_owned()).unwrap();
           };
    
             gc();
@@ -75,10 +75,16 @@ if path_struct.is_dir(){
    return get_icon(path,pkg);
 }else if path.ends_with(".deb"){
   println!("-->>{}",path);
- let _p = Command::new("dpkg").args(["-x",path,"deb_out"])
+ let _p = Command::new("dpkg").args(["-x",path,"pkg_out"])
     .output()
     .expect("failed to execute child");
-    return get_icon("./deb_out",pkg);
+    return get_icon("./pkg_out",pkg);
+}else if path.contains(".tar"){
+   println!("-->>{}",path);
+ let _p = Command::new("tar").args(["-xvf",path])
+    .output()
+    .expect("failed to execute child");
+    return get_icon("./pkg_out",pkg);
 };
     AppIcon{icon_name:"".to_string(),pkg_name:"".to_string(),extension:"".to_string(),is_valid:false}
 
@@ -212,4 +218,3 @@ fn get_resolution(mut sizes:Vec<String>)->String{
     }
 
 }
-
