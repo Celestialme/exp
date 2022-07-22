@@ -167,11 +167,12 @@ fn get_icon(dir_path:&str,pkg:&str)->AppIcon{
     icons.sort_by(|a,b|{
       let by_name = b.split(r"/").last().unwrap().contains(&pkg).cmp(&a.split(r"/").last().unwrap().contains(&pkg));
       let by_logo = b.contains("logo").cmp(&a.contains("logo"));
-      let a_size =  match re_size.captures(&a) {
+      let a_size:i32 =  match re_size.captures(&a) {
         Some(x) =>x[1].parse().unwrap(),
         None =>0
        };
-      let b_size =  match re_size.captures(&b) {
+  
+      let b_size:i32 =  match re_size.captures(&b) {
         Some(x) =>x[1].parse().unwrap(),
         None =>0
        };
