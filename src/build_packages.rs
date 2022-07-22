@@ -33,6 +33,7 @@ fn main() {
                 println!("{:?}",icon);
                if icon.is_valid{
                 cp_icon(&icon);
+                    gc();
                }
       let pkg_out = Path::new("./pkg_out");
           if pkg_out.exists(){
