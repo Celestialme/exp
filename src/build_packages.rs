@@ -24,6 +24,8 @@ fn main() {
     for pkg in pkgs{
         let icon:AppIcon;
         let pkg = re.replace(&pkg,"");
+        let icon_list = std::fs::read_dir("./icons").unwrap();
+        println!("num of icons {}",icon_list.count());
         count+=1;
         println!("{}/{}-->{}",count,length,pkg);
 
@@ -43,7 +45,7 @@ fn main() {
           
           };
    
-            gc();
+            // gc();
            }
    
        
@@ -88,12 +90,13 @@ if path_struct.is_dir(){
     return get_icon("./pkg_out",pkg);
 }else if path.contains(".tar"){
    println!("-->>{}",path);
- let p = Command::new("tar").args(["-xvf",path])
+  let p = Command::new("mkdir").args(["-p","pkg_out"])
     .output()
     .expect("failed to execute child");
-  let  path = std::str::from_utf8(&p.stdout).unwrap().trim();
-  let lines = path.split("\n").collect::<Vec<&str>>();
-  std::fs::rename(lines[0],"pkg_out").unwrap();
+ let p = Command::new("tar").args(["-xvf",path,"--directory","pkg_out"])
+    .output()
+    .expect("failed to execute child");
+ 
     return get_icon("./pkg_out",pkg);
 };
     AppIcon{icon_name:"".to_string(),pkg_name:"".to_string(),extension:"".to_string(),is_valid:false}
