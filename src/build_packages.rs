@@ -168,7 +168,7 @@ fn get_icon(dir_path:&str,pkg:&str)->AppIcon{
       let by_name = b.split(r"/").last().unwrap().contains(&pkg).cmp(&a.split(r"/").last().unwrap().contains(&pkg));
       let by_logo = b.contains("logo").cmp(&a.contains("logo"));
       let a_size:i32 =  match re_size.captures(&a) {
-        Some(x) =>match x[1].parse(){Ok(x)=>x,Err(_)=>0},,
+        Some(x) =>match x[1].parse(){Ok(x)=>x,Err(_)=>0},
         None =>0
        };
   
